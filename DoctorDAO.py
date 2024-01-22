@@ -13,7 +13,9 @@ class DoctorDAO:
      try:
         # Récupérer tous les documents de la collection "Events" avec id_doc égal à 1
         events_collection = self.db['Event']
-        filter_condition = {'ID_doc': f"{id}"}
+        
+        print(f"ID reçu depuis Angular : {id['id_Doc']}")
+        filter_condition = {'ID_doc':  id['id_Doc']}
         cursor = events_collection.find(filter_condition)
         
         # Convertir le curseur en une liste Python et utiliser dumps pour sérialiser en JSON
