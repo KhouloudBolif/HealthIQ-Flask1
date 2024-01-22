@@ -23,15 +23,19 @@ def helloCors():
 @cross_origin(origins=['http://localhost:4200'])
 def get_users():
   
-
+   try:
     if request.method == 'POST':
         _build_cors_preflight_response()
         data = request.get_json('id')
+        print(f"ID reçu depuis Angular : {data}")
         
         DocDAO = DoctorDAO()
         result = DocDAO.get(data)
         return result
-  
+   
+   except Exception as e:
+        print(f"Erreur : {e}")
+        return jsonify({"error": str(e)}), 500
 
 #To build a CORS
 def _build_cors_preflight_response():
