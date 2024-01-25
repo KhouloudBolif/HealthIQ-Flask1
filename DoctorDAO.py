@@ -25,3 +25,5 @@ class DoctorDAO:
      except Exception as e:
         print(f"Erreur : {e}")
         return jsonify({"error": str(e)}), 500
+     
+    

@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from flask_cors import cross_origin,CORS
 from DoctorDAO import *
 from bson.json_util import dumps
+from AdminDAO import AdminDAO
 
 
 client = MongoClient('mongodb+srv://healthiq23:kOPWhHdNV2BQZGTb@cluster0.byiiwlz.mongodb.net/HealthIQ?retryWrites=true&w=majority')  # Remplacez l'URL par l'URL de votre base de données
@@ -27,7 +28,7 @@ def get_users():
     if request.method == 'POST':
         _build_cors_preflight_response()
         data = request.get_json('id')
-        print(f"ID reçu depuis Angular : {data}")
+       # print(f"ID reçu depuis Angular : {data}")
         
         DocDAO = DoctorDAO()
         result = DocDAO.get(data)
@@ -36,6 +37,48 @@ def get_users():
    except Exception as e:
         print(f"Erreur : {e}")
         return jsonify({"error": str(e)}), 500
+   
+@app.route('/getallusers', methods=['GET'])
+@cross_origin(origins=['http://localhost:4200'])
+def getAllUsers():
+    try:
+        _build_cors_preflight_response()
+        admiDao=AdminDAO()
+        result = admiDao.get_users()
+        return result
+
+    
+    except Exception as e:
+        print(f"Erreur : {e}")
+        return jsonify({"error": str(e)}), 500
+@app.route('/getalldoc', methods=['GET'])
+@cross_origin(origins=['http://localhost:4200'])
+def getAllDoc():
+    try:
+        _build_cors_preflight_response()
+        admiDao=AdminDAO()
+        result = admiDao.get_doc()
+        return result
+
+    
+    except Exception as e:
+        print(f"Erreur : {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/getallEvent', methods=['GET'])
+@cross_origin(origins=['http://localhost:4200'])
+def getAllEvents():
+    try:
+        _build_cors_preflight_response()
+        admiDao=AdminDAO()
+        result = admiDao.get_allEvent()
+        return result
+
+    
+    except Exception as e:
+        print(f"Erreur : {e}")
+        return jsonify({"error": str(e)}), 500
+
 
 #To build a CORS
 def _build_cors_preflight_response():
